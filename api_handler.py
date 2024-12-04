@@ -17,9 +17,10 @@ def fetch_stock_ratios(stock_symbols):
             print("Entered if block!")
             if data:
                 stock_data[symbol] = {
-                    'P/E Ratio': data[0].get('priceEarningsRatio', 'N/A'),
+                    'P/E Ratio': round(data[0].get('priceEarningsRatio', 'N/A'), 3),
                     'EPS': data[0].get('eps', 'N/A'),
-                    'ROE': data[0].get('returnOnEquity', 'N/A'),
+                    'ROE': round(data[0].get('returnOnEquity', 'N/A'), 3),
+                    'Earnings To Growth Ratio' : round(data[0].get('priceEarningsToGrowthRatio', 'N/A'), 3)
                     # Add more ratios as needed
                 }
             # print(stock_data)

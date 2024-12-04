@@ -16,17 +16,15 @@ def compare_stocks():
     if request.method == 'POST':
         selectedStocks = request.get_json().get('stocks', [])
         print(selectedStocks)
-        # Hard-coded stock symbols or other POST handling logic
-        hardcoded_stocks = ["AAPL", "MSFT"]  # Example stocks
         try:
             stock_data = fetch_stock_ratios(selectedStocks)
-            # print(stock_data)
             transformed_data = [
         {
             'symbol': symbol,
             'pe_ratio': details.get('P/E Ratio', 'N/A'),
             'eps': details.get('EPS', 'N/A'),
-            'roa': details.get('ROE', 'N/A')  # Rename as 'ROA' for consistency
+            'roa': details.get('ROE', 'N/A'),  # Rename as 'ROA' for consistency
+            'earnings_to_growth_ratio': details.get('Earnings To Growth Ratio', 'N/A')
         }
         for symbol, details in stock_data.items()
     ]
