@@ -11,8 +11,12 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   </head>
   <body>
+    <script src=
+"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+      </script>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="#">Stock Comparator</a>
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -34,14 +38,17 @@
     </nav>
     <div>
       <h1 class="text-center">Compare Stocks</h1>
-      <div class="dropdown">
-        <select name="stocks" id="stocks" multiple>
+      <div class="dropdown mt-3">
+        <label for="stocks" class="form-label">Select Stocks</label>
+        <select class="form-select" name="stocks" id="stocks" multiple aria-label="Stocks Selection">
           <option value="MSFT">MSFT</option>
           <option value="NVDA">NVDA</option>
           <option value="CRWD">CRWD</option>
         </select>
       </div>
-      <button id="fetch-data">Fetch Stock Data</button>
+      <button id="fetch-data" class="btn btn-primary btn-lg mt-3">
+        Fetch Stock Data
+      </button>
       <div class="row justify-content-center">
         <div class="col-10">
           <table
