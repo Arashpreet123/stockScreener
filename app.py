@@ -7,6 +7,13 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
+@app.route('/add', methods=['GET', 'POST'])
+def add():
+    if request.method == 'GET':
+        return render_template('add.html')
+    if request.method == 'POST':
+        return print('Hello World')
+
 @app.route('/comparestocks', methods=['GET', 'POST'])
 def compare_stocks():
     if request.method == 'GET':
