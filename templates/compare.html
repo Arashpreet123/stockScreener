@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compare Stocks</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Compare Stocks</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+  </head>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-</head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<body>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
-  </script>
-  
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="#">Stock Comparator</a>
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -32,73 +33,80 @@
         </ul>
       </div>
     </nav>
-    <div>
+    <div
+      class="d-flex justify-content-center align-items-center"
+    >
       <div class="container">
-      <div class="row">
-        <h1 class="text-center">Compare Stocks</h1>
-        <div class="col-2 mb-5">
-          <div class="dropdown mt-3">
-            <label for="stocks" class="form-label">Select Stocks</label>
-            <select class="form-select" name="stocks" id="stocks" multiple aria-label="Stocks Selection">
-              <option value="MSFT">MSFT</option>
-              <option value="NVDA">NVDA</option>
-              <option value="CRWD">CRWD</option>
-            </select>
+        <div class="row">
+          <h1 class="text-center">Compare Stocks</h1>
+          <div class="col-2 mb-5">
+            <div class="dropdown mt-3">
+              <label for="stocks" class="form-label">Select Stocks</label>
+              <select
+                class="form-select"
+                name="stocks"
+                id="stocks"
+                multiple
+                aria-label="Stocks Selection"
+              >
+                <option value="MSFT">MSFT</option>
+                <option value="NVDA">NVDA</option>
+                <option value="CRWD">CRWD</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-2">
+            <button id="fetch-data" class="btn btn-primary mt-3">
+              Fetch Stock Data
+            </button>
           </div>
         </div>
-        <div class="col-2">
-          <button id="fetch-data" class="btn btn-primary mt-3">
-            Fetch Stock Data
-          </button>
-        </div>
-      </div>
-      <div class="row justify-content-center">
-        <div class="col-10 table-responsive">
-          <table id="stock-table" class="table table-dark table-striped">
-            <thead>
-              <tr>
-                <th>Stock Symbol</th>
-                <th>P/E Ratio</th>
-                <th>EPS</th>
-                <th>ROA</th>
-                <th width="20%">Earnings To Growth Ratio</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
+        <div class="row justify-content-center">
+          <div class="col-12 table-responsive">
+            <table id="stock-table" class="table table-dark table-striped">
+              <thead>
+                <tr>
+                  <th>Stock Symbol</th>
+                  <th>P/E Ratio</th>
+                  <th>EPS</th>
+                  <th>ROA</th>
+                  <th width="20%">Earnings To Growth Ratio</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const fetchButton = document.getElementById("fetch-data");
-      const tableBody = document.querySelector("#stock-table tbody");
-      const stocksSelected = document.getElementById("stocks");
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const fetchButton = document.getElementById("fetch-data");
+        const tableBody = document.querySelector("#stock-table tbody");
+        const stocksSelected = document.getElementById("stocks");
 
-      fetchButton.addEventListener("click", async () => {
-        const selectedStocks = Array.from(stocksSelected.selectedOptions).map(
-          (option) => option.value
-        );
+        fetchButton.addEventListener("click", async () => {
+          const selectedStocks = Array.from(stocksSelected.selectedOptions).map(
+            (option) => option.value
+          );
 
-        try {
-          const response = await fetch("/comparestocks", {
-            method: "POST",
-            body: JSON.stringify({
-              stocks: selectedStocks,
-            }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+          try {
+            const response = await fetch("/comparestocks", {
+              method: "POST",
+              body: JSON.stringify({
+                stocks: selectedStocks,
+              }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
 
-          if (response.ok) {
-            const data = await response.json();
-            tableBody.innerHTML = "";
-            data.forEach((stock) => {
-              const row = `
+            if (response.ok) {
+              const data = await response.json();
+              tableBody.innerHTML = "";
+              data.forEach((stock) => {
+                const row = `
                                 <tr>
                                     <td>${stock.symbol}</td>
                                     <td>${stock.pe_ratio}</td>
@@ -107,23 +115,26 @@
                                     <td>${stock.earnings_to_growth_ratio}</td>
                                 </tr>
                             `;
-              tableBody.innerHTML += row;
-            });
-          } else {
-            console.error("Failed to fetch data:", response.statusText);
+                tableBody.innerHTML += row;
+              });
+            } else {
+              console.error("Failed to fetch data:", response.statusText);
+            }
+          } catch (error) {
+            console.error("Error fetching stock data:", error);
           }
-        } catch (error) {
-          console.error("Error fetching stock data:", error);
-        }
+        });
       });
-    });
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>
 <style>
   body {
-  margin: 0;
-  overflow-x: hidden; /* Prevent horizontal scroll */
-}
+    margin: 0;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+  }
+
+  .container {
+    /* margin: 30px; */
+  }
 </style>

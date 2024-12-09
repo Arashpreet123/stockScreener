@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from api_handler import fetch_stock_ratios
+from db import fetch_all
 
 app = Flask(__name__)
 
@@ -17,7 +18,6 @@ def add():
 @app.route('/comparestocks', methods=['GET', 'POST'])
 def compare_stocks():
     if request.method == 'GET':
-        # Render the compare stocks page
         return render_template('compare.html')
 
     if request.method == 'POST':
@@ -38,6 +38,15 @@ def compare_stocks():
             return jsonify(transformed_data), 200
         except Exception as e:
             return jsonify({"error": str(e)}), 500
+        
+        
+@app.route('/users', methods=['GET'])
+def get_users():
+    try:
+        users = fetch_all('users')
+        return jsonify(users)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':
